@@ -3,7 +3,7 @@ This project is a  datavizualistation for representating internet and facebook U
 and 2020 in Africa.
 
 # Technologies used
--Frontend: Leaflet.js, Map.js
+-Frontend: Leaflet.js, Javascript, Boostrap, Jquery, Html, Css
 
 -Backend: Django(Python)
 
