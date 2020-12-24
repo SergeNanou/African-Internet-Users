@@ -4,4 +4,5 @@ and 2020.
 
 # Technologies used
 -Frontend: Leaflet.js, Map.js
+
 -Backend: Django(Python)
