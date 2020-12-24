@@ -10,4 +10,4 @@ and 2020 in Africa.
 -Docker
 
 # Deployment
-This application is serving for heroku host.
+This application is serving by heroku host.
