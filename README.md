@@ -6,3 +6,8 @@ and 2020 in Africa.
 -Frontend: Leaflet.js, Map.js
 
 -Backend: Django(Python)
+
+-Docker
+
+# Deployment
+This application is serving for heroku host.
