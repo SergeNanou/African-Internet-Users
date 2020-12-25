@@ -27,12 +27,12 @@ var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 10, 20, 40, 60, 80, 100, 150];
+        grades = [0, 5, 15, 30, 50, 60, 120];
 
-    div.innerHTML += '<h6>En millions</h6>';
+    div.innerHTML += '<h6>En milliers</h6>';
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-        '<i style="background:' + getColor((grades[i] + 1) * 1000000) + '"></i>' + 
+        '<i style="background:' + getColor((grades[i] + 1) * 1000) + '"></i>' + 
             grades[i] + (grades[i + 1] ? 'M – ' + grades[i + 1] + 'M <br>' : '+');
     }
 
@@ -69,8 +69,8 @@ function getColor(d) {
         d < 50000  ? '#FFA500' :
         d < 60000   ? '#FEB24C' :
         d < 120000   ? '#808000' :
-        d < 30000000   ? '#008000' :
-        '#FED976';
+         '#008000' ;
+        
 }
 function highlightFeature(e) {
     var layer = e.target;
