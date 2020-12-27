@@ -61,7 +61,7 @@ let geoJSONLayer_1 = L.geoJson(data, {
 });
 function style_1(feature) {
     return {
-        fillColor: getColor(feature.properties.popul_int_2020),
+        fillColor: getColor_1(feature.properties.popul_int_2020),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -75,7 +75,7 @@ let geoJSONLayer_2 = L.geoJson(data, {
 });
 function style_2(feature) {
     return {
-        fillColor: getColor(feature.penetration),
+        fillColor: getColor_2(feature.properties.penetration),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -89,7 +89,7 @@ let geoJSONLayer_3 = L.geoJson(data, {
 });
 function style_3(feature) {
     return {
-        fillColor: getColor(feature.int_growth),
+        fillColor: getColor_2(feature.properties.int_growth),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -103,7 +103,7 @@ let geoJSONLayer_4 = L.geoJson(data, {
 });
 function style_4(feature) {
     return {
-        fillColor: getColor(feature.face_subs),
+        fillColor: getColor_1(feature.properties.face_subs),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -152,14 +152,14 @@ function onEachFeature(feature, layer) {
     }
     
     function resetHighlight(e) {
-        geoJSONLayer.resetStyle(e.target);
+        layers[checkId - 1].resetStyle(e.target);
         info.update();
     }
       }
-    else {
-      map.removeLayer(layers[checkId - 1]);
-      selId = null;
-    }
+    // else {
+    //   map.removeLayer(layers[checkId - 1]);
+    //   selId = null;
+    // }
   }
 
 function getColor(d) {
@@ -172,24 +172,54 @@ function getColor(d) {
          '#008000' ;
         
 }
-// function highlightFeature(e) {
-//     var layer = e.target;
+function getColor_1(d) {
+    return d < 500000 ? '#FF4500' :
+        d < 1000000  ? '#FF6347' :
+        d < 3000000  ? '#FF7F50' :
+        d < 7000000  ? '#FFA500' :
+        d < 15000000   ? '#FEB24C' :
+        d < 35000000   ? '#808000' :
+         '#008000' ;
+        
+}
+function getColor_2(d) {
+    return d < 10 ? '#FF4500' :
+        d < 20  ? '#FF6347' :
+        d < 30  ? '#FF7F50' :
+        d < 40  ? '#FFA500' :
+        d < 60   ? '#FEB24C' :
+        d < 70   ? '#808000' :
+         '#008000' ;
+        
+}
+function getColor_4(d) {
+    return d < 250000 ? '#FF4500' :
+        d < 500000  ? '#FF6347' :
+        d < 1000000  ? '#FF7F50' :
+        d < 2500000  ? '#FFA500' :
+        d < 5000000   ? '#FEB24C' :
+        d < 10000000   ? '#808000' :
+         '#008000' ;
+        
+}
+function highlightFeature(e) {
+    var layer = e.target;
 
-//     layer.setStyle({
-//         weight: 5,
-//         color: '#666',
-//         dashArray: '',
-//         fillOpacity: 0.7
-//     });
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
 
-//     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-//         layer.bringToFront(); // Permet de garantir que le pays est au-dessus des autres couches de données
-//     }
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront(); // Permet de garantir que le pays est au-dessus des autres couches de données
+    }
 
-//     info.update(layer.feature.properties);
-// }
+    info.update(layer.feature.properties);
+}
 
-// function resetHighlight(e) {
-//     geoJSONLayer.resetStyle(e.target);
-//     info.update();
-// }
+function resetHighlight(e) {
+    geoJSONLayer.resetStyle(e.target);
+    info.update();
+}

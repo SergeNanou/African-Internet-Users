@@ -547,7 +547,7 @@ var data = {
           "population": 29784193,
           "popul_int_2000": 30000,
           "popul_int_2020":8980670,
-          "penetration":27.3,
+          "penetration":27,
           "int_growth":29.835,
           "face_subs":2244000
         },
