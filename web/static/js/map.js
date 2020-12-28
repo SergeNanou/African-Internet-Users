@@ -15,8 +15,12 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h5>Population utilisant Internet </h5>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.popul_int_2000.toLocaleString()  + ' habitants'
+    this._div.innerHTML = '<h5>Informations </h5>' +  (props ?
+        '<b>' + props.name + '</b><br />' + props.popul_int_2000.toLocaleString()  + 
+        ' utilisateurs internet 2000' + '</b><br />' + props.popul_int_2020.toLocaleString()  + ' utilisateurs internet 2020'
+        + '</b><br />' + props.penetration.toLocaleString()  + ' : taux de penetration internet(%)'
+        + '</b><br />' + props.int_growth.toLocaleString()  + ' : taux augmantation utiliisateurs internet(%)'
+        + '</b><br />' + props.face_subs.toLocaleString()  + ' utilisateurs facebook 2020'
         : 'Passer la souris sur un pays');
 };
 
@@ -29,11 +33,11 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 5, 15, 30, 50, 60, 120];
 
-    div.innerHTML += '<h6>En milliers</h6>';
+    div.innerHTML += "<h6>Echelle de grandeurs</h6>";
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-        '<i style="background:' + getColor((grades[i] + 1) * 1000) + '"></i>' + 
-            grades[i] + (grades[i + 1] ? 'M – ' + grades[i + 1] + 'M <br>' : '+');
+        '<i style="background:' + getColor((grades[i] + 1) * 1000) + '"></i>' 
+            // grades[i] + (grades[i + 1] ? 'M – ' + grades[i + 1] + 'M <br>' : '+');
     }
 
     return div;
@@ -57,7 +61,7 @@ function style(feature) {
 }
 let geoJSONLayer_1 = L.geoJson(data, { 
     style: style_1,
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature_1
 });
 function style_1(feature) {
     return {
@@ -71,7 +75,7 @@ function style_1(feature) {
 }
 let geoJSONLayer_2 = L.geoJson(data, { 
     style: style_2,
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature_2
 });
 function style_2(feature) {
     return {
@@ -85,7 +89,7 @@ function style_2(feature) {
 }
 let geoJSONLayer_3 = L.geoJson(data, { 
     style: style_3,
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature_3
 });
 function style_3(feature) {
     return {
@@ -99,7 +103,7 @@ function style_3(feature) {
 }
 let geoJSONLayer_4 = L.geoJson(data, { 
     style: style_4,
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature_4
 });
 function style_4(feature) {
     return {
@@ -118,8 +122,67 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight
     });
 }
+function onEachFeature_1(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight_1
+    });
+}
+function onEachFeature_2(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight_2
+    });
+}
+function onEachFeature_3(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight_3
+    });
+}
+function onEachFeature_4(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight_4
+    });
+}
+function highlightFeature(e) {
+    var layer = e.target;
 
-   
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront(); // Permet de garantir que le pays est au-dessus des autres couches de données
+    }
+
+    info.update(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+    geoJSONLayer.resetStyle(e.target);
+    info.update();
+}
+function resetHighlight_1(e) {
+    geoJSONLayer_1.resetStyle(e.target);
+    info.update();
+}
+function resetHighlight_2(e) {
+    geoJSONLayer_2.resetStyle(e.target);
+    info.update();
+}
+function resetHighlight_3(e) {
+    geoJSONLayer_3.resetStyle(e.target);
+    info.update();
+}
+function resetHighlight_4(e) {
+    geoJSONLayer_4.resetStyle(e.target);
+    info.update();
+}  
   var layers = [geoJSONLayer, geoJSONLayer_1, geoJSONLayer_2, geoJSONLayer_3, geoJSONLayer_4];
   
   selId = null;
@@ -134,32 +197,11 @@ function onEachFeature(feature, layer) {
       }
       layers[checkId - 1].addTo(map);
       selId = checkId;
-      function highlightFeature(e) {
-        var layer = e.target;
-    
-        layer.setStyle({
-            weight: 5,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 0.7
-        });
-    
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront(); // Permet de garantir que le pays est au-dessus des autres couches de données
-        }
-    
-        info.update(layer.feature.properties);
-    }
-    
-    function resetHighlight(e) {
-        layers[checkId - 1].resetStyle(e.target);
-        info.update();
-    }
       }
-    // else {
-    //   map.removeLayer(layers[checkId - 1]);
-    //   selId = null;
-    // }
+    else {
+      map.removeLayer(layers[checkId - 1]);
+      selId = null;
+    }
   }
 
 function getColor(d) {
@@ -201,25 +243,4 @@ function getColor_4(d) {
         d < 10000000   ? '#808000' :
          '#008000' ;
         
-}
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-        weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
-    });
-
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront(); // Permet de garantir que le pays est au-dessus des autres couches de données
-    }
-
-    info.update(layer.feature.properties);
-}
-
-function resetHighlight(e) {
-    geoJSONLayer.resetStyle(e.target);
-    info.update();
 }

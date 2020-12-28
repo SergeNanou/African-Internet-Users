@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import  include, url
 from landy.views import land
+from landy.views import led
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', land, name='land'),
+    url(r'^led/$', led, name='led'),
 ]
