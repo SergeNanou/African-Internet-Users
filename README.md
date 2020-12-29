@@ -11,6 +11,7 @@ to 2020 in Africa.
 
 # Deployment
 This application is serving by heroku host.
+A project link: https://africa-internet.herokuapp.com/
 
 # Run project in local
 git clone https://github.com/SergeNanou/African-Internet-Users
